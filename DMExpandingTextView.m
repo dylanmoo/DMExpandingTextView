@@ -31,6 +31,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        self.minimumHeight = frame.size.height;
         //self.delegate = self;
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(textChanged)
@@ -47,6 +48,7 @@
                                                      name:UITextViewTextDidEndEditingNotification
                                                    object:self];
         
+        
     }
     return self;
 }
@@ -60,12 +62,17 @@
 
 -(void)resize{
     CGRect newFrame = self.frame;
-    newFrame.size.height = self.contentSize.height;
-    self.frame = newFrame;
-    [self layoutIfNeeded];
+    float contentHeight = self.contentSize.height;
     
-    if([self.delegate respondsToSelector:@selector(expandingTextViewResized)]){
-        [self.delegate expandingTextViewResized];
+    //Resize only if new height is greater than minimum
+    if(contentHeight>=self.minimumHeight){
+        newFrame.size.height = self.contentSize.height;
+        self.frame = newFrame;
+        [self layoutIfNeeded];
+        
+        if([self.delegate respondsToSelector:@selector(expandingTextViewResized)]){
+            [self.delegate expandingTextViewResized];
+        }
     }
 }
 

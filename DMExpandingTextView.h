@@ -39,6 +39,8 @@
 
 //Set these at any time, but make sure to call showPlaceholder
 
+@property float minimumHeight;
+
 @property (nonatomic) NSString *placeholderText;
 
 @property (nonatomic) UIColor *placeholderTextColor;
